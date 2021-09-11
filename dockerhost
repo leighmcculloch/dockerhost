@@ -1,0 +1,75 @@
+#!/usr/bin/env zsh
+
+set -e
+
+cmd=
+args=
+
+if [ $# -gt 0 ]; then
+    cmd=$1; shift
+    args=$@
+fi
+
+if ! type multipass > /dev/null; then
+  brew install multipass
+fi
+if ! type docker > /dev/null; then
+  brew install docker
+fi
+
+case "$cmd" in
+    create)
+        multipass launch -n dockerhost --cloud-init =(cat << EOF
+---
+users:
+  - name: user
+    sudo: ALL=(ALL) NOPASSWD:ALL
+package_update: true
+packages:
+  - docker
+write_files:
+- path: /etc/systemd/system/docker.service.d/options.conf
+  owner: root:root
+  permissions: '0644'
+  content: |
+    [Service]
+    ExecStart=
+    ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375 --containerd=/run/containerd/containerd.sock
+runcmd:
+  - curl -fsSL https://get.docker.com | sudo bash
+  - sudo systemctl enable docker
+  - sudo groupadd docker
+  - sudo usermod -aG docker user
+EOF
+) $args
+        multipass info dockerhost
+        echo
+        echo "Run the following to setup the DOCKER_HOST environment variable:"
+        echo "  eval \$(dockerhost env)"
+        echo
+        echo "Or set the DOCKER_HOST environment variable:"
+        ip=$(multipass info dockerhost --format json | jq -r '.info.dockerhost.ipv4[0]')
+        echo "  export DOCKER_HOST=\"tcp://$ip\""
+        ;;
+    info)
+        multipass info dockerhost
+        ;;
+    env)
+        ip=$(multipass info dockerhost --format json | jq -r '.info.dockerhost.ipv4[0]')
+        echo "export DOCKER_HOST=\"tcp://$ip\""
+        ;;
+    start)
+        multipass start dockerhost
+        ;;
+    stop)
+        multipass stop dockerhost
+        ;;
+    delete)
+        multipass delete dockerhost
+        multipass purge
+        ;;
+    *)
+        echo "Usage: $0 {create|start|stop|delete|info|env}"
+        exit 1
+        ;;
+esac
