@@ -3,11 +3,9 @@
 set -e
 
 cmd=
-args=
 
 if [ $# -gt 0 ]; then
     cmd=$1; shift
-    args=$@
 fi
 
 case "$cmd" in
@@ -34,7 +32,7 @@ runcmd:
   - sudo groupadd docker
   - sudo usermod -aG docker user
 EOF
-) $args
+) "$@"
         multipass info dockerhost
         echo
         echo "Run the following to setup the DOCKER_HOST environment variable:"
