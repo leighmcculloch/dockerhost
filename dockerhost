@@ -10,7 +10,7 @@ fi
 
 case "$cmd" in
     create)
-        multipass launch -n dockerhost --cloud-init =(cat << EOF
+        multipass launch -n dockerhost -c 2 -d 10G -m 2G --cloud-init =(cat << EOF
 ---
 users:
   - name: user
@@ -63,15 +63,15 @@ EOF
         echo "Usage: dockerhost <command>"
         echo
         echo "Example:"
-        echo "  dockerhost create -c 1 -d 10G -m 2G"
+        echo "  dockerhost create -c 2 -d 10G -m 2G"
         echo "  eval \$(dockerhost env)"
         echo "  docker build ..."
         echo
         echo "Commands:"
         echo "  create  Create and start a vm hosting the docker daemon."
-        echo "            -c Number of CPUs to allocate. Default: 1."
-        echo "            -d Disk space to allocate. Default: 5G."
-        echo "            -m Memory to allocate. Default: 1G."
+        echo "            -c Number of CPUs to allocate. Default: 2."
+        echo "            -d Disk space to allocate. Default: 10G."
+        echo "            -m Memory to allocate. Default: 2G."
         echo "  start   Start the vm."
         echo "  stop    Stop the vm."
         echo "  delete  Delete the vm."
