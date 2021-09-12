@@ -10,13 +10,6 @@ if [ $# -gt 0 ]; then
     args=$@
 fi
 
-if ! type multipass > /dev/null; then
-  brew install multipass
-fi
-if ! type docker > /dev/null; then
-  brew install docker
-fi
-
 case "$cmd" in
     create)
         multipass launch -n dockerhost --cloud-init =(cat << EOF
