@@ -16,8 +16,7 @@ users:
   - name: user
     sudo: ALL=(ALL) NOPASSWD:ALL
 package_update: true
-packages:
-  - docker
+package_upgrade: true
 write_files:
 - path: /etc/systemd/system/docker.service.d/options.conf
   owner: root:root
