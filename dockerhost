@@ -12,9 +12,8 @@ case "$cmd" in
     create)
         multipass launch -n dockerhost -c 2 -d 10G -m 2G --cloud-init =(cat << EOF
 ---
-users:
-  - name: user
-    sudo: ALL=(ALL) NOPASSWD:ALL
+groups:
+  - ubuntu: [docker]
 package_update: true
 package_upgrade: true
 write_files:
@@ -28,8 +27,6 @@ write_files:
 runcmd:
   - curl -fsSL https://get.docker.com | sudo bash
   - sudo systemctl enable docker
-  - sudo groupadd docker
-  - sudo usermod -aG docker user
 EOF
 ) "$@"
         multipass info dockerhost
