@@ -69,7 +69,23 @@ EOF
         multipass purge
         ;;
     *)
-        echo "Usage: $0 {create|start|stop|delete|info|env}"
+        echo "Usage: dockerhost <command>"
+        echo
+        echo "Example:"
+        echo "  dockerhost create -c 1 -d 10G -m 2G"
+        echo "  eval \$(dockerhost env)"
+        echo "  docker build ..."
+        echo
+        echo "Commands:"
+        echo "  create  Create and start a vm hosting the docker daemon."
+        echo "            -c Number of CPUs to allocate. Default: 1."
+        echo "            -d Disk space to allocate. Default: 5G."
+        echo "            -m Memory to allocate. Default: 1G."
+        echo "  start   Start the vm."
+        echo "  stop    Stop the vm."
+        echo "  delete  Delete the vm."
+        echo "  info    Display the IP, disk space, and other info about the VM."
+        echo "  env     Output the DOCKER_HOST env var."
         exit 1
         ;;
 esac
