@@ -3,7 +3,7 @@ class Dockerhost < Formula
   homepage "https://github.com/leighmcculloch/dockerhost"
   bottle :unneeded
 
-  depends_on "multipass"
+  depends_on :multipass
   depends_on "docker"
   depends_on "jq"
 
