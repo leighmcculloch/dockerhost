@@ -31,4 +31,5 @@ Commands:
   delete  Delete the vm.
   info    Display the IP, disk space, and other info about the VM.
   env     Output the DOCKER_HOST env var.
+  exec    Execute a command in the vm.
 ```
