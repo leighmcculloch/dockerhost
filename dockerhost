@@ -2,6 +2,8 @@
 
 set -e
 
+port=2375
+
 cmd=
 
 if [ $# -gt 0 ]; then
@@ -21,7 +23,7 @@ write_files:
   content: |
     [Service]
     ExecStart=
-    ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:2375 --containerd=/run/containerd/containerd.sock
+    ExecStart=/usr/bin/dockerd -H fd:// -H tcp://0.0.0.0:$port --containerd=/run/containerd/containerd.sock
 runcmd:
   - curl -fsSL https://get.docker.com | sudo bash
   - sudo systemctl enable docker
@@ -36,14 +38,14 @@ EOF
         echo
         echo "Or set the DOCKER_HOST environment variable:"
         ip=$(multipass info dockerhost --format json | jq -r '.info.dockerhost.ipv4[0]')
-        echo "  export DOCKER_HOST=\"tcp://$ip\""
+        echo "  export DOCKER_HOST=\"tcp://$ip:$port\""
         ;;
     info)
         multipass info dockerhost
         ;;
     env)
         ip=$(multipass info dockerhost --format json | jq -r '.info.dockerhost.ipv4[0]')
-        echo "export DOCKER_HOST=\"tcp://$ip\""
+        echo "export DOCKER_HOST=\"tcp://$ip:$port\""
         ;;
     exec)
         multipass exec dockerhost -- "$@"
