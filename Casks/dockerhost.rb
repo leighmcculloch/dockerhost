@@ -6,8 +6,8 @@ cask "dockerhost" do
   depends_on formula: "docker"
   depends_on formula: "jq"
 
-  version "1.3.3"
-  sha256 "be59445ef0956bee2adb981fb6251d7ff80ba24d074968a99bd78ce7379afc67"
+  version "1.4.0"
+  sha256 "9bb207f818ab0680f4b72f1fe47e8eb0b5a6b0f73f5abd3e6dc696555c76b676"
 
   url "https://raw.githubusercontent.com/leighmcculloch/dockerhost/v#{version}/dockerhost"
 
