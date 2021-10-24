@@ -60,6 +60,12 @@ EOF
     stop)
         multipass stop dockerhost
         ;;
+    mount)
+        multipass mount $1 dockerhost:$2
+        ;;
+    umount)
+        multipass umount dockerhost:$1
+        ;;
     delete)
         multipass delete dockerhost
         multipass purge
@@ -69,6 +75,7 @@ EOF
         echo
         echo "Example:"
         echo "  dockerhost create -c 2 -d 10G -m 2G"
+        echo "  dockerhost mount \$HOME \$HOME"
         echo "  eval \$(dockerhost env)"
         echo "  docker build ..."
         echo
@@ -84,6 +91,11 @@ EOF
         echo "  ip      Display the IP of the vm."
         echo "  env     Output the DOCKER_HOST environment variable."
         echo "  exec    Execute a command in the vm."
+        echo "  mount   Mount a folder into the vm."
+        echo "            <source> The folder on the host."
+        echo "            <target> The folder on the dockerhost. (Optional)"
+        echo "  umount  Unmount a folder that was mounted into the vm."
+        echo "            <target> The folder on the dockerhost. (Optional)"
         exit 1
         ;;
 esac
