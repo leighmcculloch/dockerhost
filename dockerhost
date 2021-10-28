@@ -44,11 +44,19 @@ EOF
         multipass info dockerhost
         ;;
     ip)
-        ip=$(multipass info dockerhost --format json | jq -r '.info.dockerhost.ipv4[0]')
+        ip=$(multipass list --format json | jq -r '.list[] | select(.name == "dockerhost") | .ipv4[0]')
+        if [ "$ip" = "null" ]; then
+            echo "dockerhost not started" 1>&2
+            exit 1
+        fi
         echo "$ip"
         ;;
     env)
-        ip=$(multipass info dockerhost --format json | jq -r '.info.dockerhost.ipv4[0]')
+        ip=$(multipass list --format json | jq -r '.list[] | select(.name == "dockerhost") | .ipv4[0]')
+        if [ "$ip" = "null" ]; then
+            echo "dockerhost not started" 1>&2
+            exit 1
+        fi
         echo "export DOCKER_HOST=\"tcp://$ip:$port\""
         ;;
     exec)
