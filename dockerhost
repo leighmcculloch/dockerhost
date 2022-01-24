@@ -27,7 +27,6 @@ write_files:
 runcmd:
   - curl -fsSL https://get.docker.com | sudo bash
   - sudo systemctl enable docker
-  - sudo groupadd docker
   - sudo usermod -aG docker ubuntu
 EOF
 ) "$@"
