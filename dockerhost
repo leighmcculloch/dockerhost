@@ -28,6 +28,7 @@ runcmd:
   - curl -fsSL https://get.docker.com | sudo bash
   - sudo systemctl enable docker
   - sudo usermod -aG docker ubuntu
+  - docker run --rm --privileged aptman/qus -s -- -p
 EOF
 ) "$@"
         multipass info dockerhost
