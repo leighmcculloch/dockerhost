@@ -9,7 +9,7 @@ daemon that listens on `tcp://<ip>:2375`.
 ## Usage
 
 ```
-brew install 4d63/dockerhost/dockerhost
+brew install --cask 4d63/dockerhost/dockerhost
 ```
 
 ```
