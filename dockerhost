@@ -12,7 +12,7 @@ fi
 
 case "$cmd" in
     create)
-        multipass launch -n dockerhost -c 2 -d 10G -m 2G --cloud-init =(cat << EOF
+        multipass launch -n dockerhost -c 2 -d 10G -m 2G --cloud-init =(cat << 'EOF'
 ---
 package_update: true
 package_upgrade: true
